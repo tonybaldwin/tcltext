@@ -1,14 +1,9 @@
-TickleText 2.2 README:
+TickleText 2.3 README:
 
 ----
   
-TickleText was created by Anthony Baldwin / tonytraductor@linguasos.org
+TickleText was created by Anthony Baldwin / tony@baldwinsoftware.com
 http://www.baldwinsoftware.com
-----
-
-New in this version:
-insane journal posting added.
-
 ----
 DEPENDENCIES:
 
@@ -27,10 +22,10 @@ if you don't already have it.)
 
 The Livejournal posting feature requires package http
 Also, it only works if you have a Livejournal.
-Get one: http://www.livejourna.com
+Get one: http://www.livejournal.com
 Mine is http://tonytraductor.livejournal.com
 
-Alternatively, I believe the tcl ft and http are part of tcllib.
+tcl ft and http are part of tcllib.
 ----
 
 tickle text requires:
@@ -49,26 +44,21 @@ Upgrade.  You'll be glad you did.
 
 ----
 
-I no longer recomment tcltext for windows users.
+While tcl is cross-platform and most of tcltext will work on Windows,
+I do not recommend tcltext for windows users.
 You are free to try, but, I offer you no support.
-Your OS sucks.
+Your OS sucks. Sorry.
 
 As far as I know, everyting should work fine on any Linux,
-or BSD system, and, likely, OSX.
-It all works great here on my Linguas OS box!
+or BSD system, and, possibly, OSX.
 
 Installation for *nix/nux/osx:
 
-For a gui install (requires zenity), cd to the dir where you've downloaded
+cd to the dir where you've downloaded
 and extracted the tarball and do 
-tar -xf tcltext2.2,tar.gz
+tar -xf tcltext2.3.tar.gz
 su or sudo
 ./install.sh
-
-For nongui install do
-tar -xf tcltext2.2,tar.gz
-su or sudo
-./nonguiinstall.sh
 
 Enter your username (not root) when the installation asks you for
 your name.
@@ -79,18 +69,7 @@ as well as create a .tcltext directory in your home (and root's home)
 to save configs.  
 If you have difficulty, feel free to e-mail me.
 
-Using fluxbox, my menu entry is thus:
-[exec] (TickleText) {/usr/local/bin/tcltext} 
-Actually, you can even leave off the file path so long
-as /usr/local/bin is already in your path, which,
-most likely it is.
-On gnome or kde, etc., you can make a desktop icon, or whatever you like.
-Just point it to the script.
-I've even included an icon, now, although, if you're artistic,
-perhaps you could make a better one.
-Send it to me, if you do!
-
-TickleDict can be run on it's own, once this installation is run, as can the calculator,
+TDict can be run on it's own, once this installation is run, as can the calculator,
 and the calendar.
 They'll be at 
 /usr/local/bin/tdict
@@ -99,13 +78,13 @@ They'll be at
 respectively.
 
 ----
-If you like Tickle Text and want to drop me a line to say thanks,
-go ahead and e-mail me at tonytraductor@@linguasos.org
-Likewise, do the same if you have any questions about using Tickle Text,
+If you like TclText and want to drop me a line to say thanks,
+go ahead and e-mail me at tony@baldwinsoftware.com
+Likewise, do the same if you have any questions about using TclText,
 and/or suggestions for new features.
 I don't ever intend to implement a million features.
 You want something bloated but groOvy and useful, 
-get jedit or AlphaTK.
+get jedit or emacs.
 Those are nice.
 
 If you have complaints, call 1-800-YO-MOMS.
@@ -113,7 +92,7 @@ If you have complaints, call 1-800-YO-MOMS.
 Be well,
 Tony
 ----
-This program was written by Anthony Baldwin / tonytraductor@linguasos.org
+This program was written by Anthony Baldwin / tony@baldwinsoftware.com
 Other software by tony: http://www.baldwinsoftware.com
 
 This program is free software; you can redistribute it and/or modify

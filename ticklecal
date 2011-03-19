@@ -1,0 +1,172 @@
+#! /bin/sh
+# this line is necessary\
+exec wish8.5 $0 ${1+"$@"}
+
+ namespace eval date {
+    variable a
+    set now [clock scan now]
+    set a(year) [clock format $now -format "%Y"]
+    scan [clock format $now -format "%m"] %d a(month)
+    scan [clock format $now -format "%d"] %d a(day)
+
+    proc chooser {w args} {
+        variable a
+        array set a {
+            -font {Helvetica 10} -titlefont {Helvetica 12} -bg white
+            -highlight orange -mon 1
+        }
+        # The -mon switch gives the position of Monday (1 or 0)
+        array set a $args
+        set a(canvas) [canvas $w -bg $a(-bg) -width 200 -height 200]
+    	$w bind day <1> {
+	        set item [%W find withtag current]
+	        set date::a(day) [%W itemcget $item -text]
+	        date::display
+	    }
+        cbutton $w 60  10 << {date::adjust  0 -1}
+        cbutton $w 80  10 <  {date::adjust -1  0}
+        cbutton $w 120 10 >  {date::adjust  1  0}
+        cbutton $w 140 10 >> {date::adjust  0  1}
+        display
+        set w
+    }
+    proc adjust {dmonth dyear} {
+        variable a
+        incr a(year)  $dyear
+        incr a(month) $dmonth
+        if {$a(month)>12} {set a(month) 1; incr a(year)}
+        if {$a(month)<1}  {set a(month) 12; incr a(year) -1}
+        set maxday [numberofdays $a(month) $a(year)]
+    	if {$maxday < $a(day)} {set a(day) $maxday}
+    	display
+    }
+    proc display {} {
+        variable a
+        set c $a(canvas)
+    	foreach tag {title otherday day} {$c delete $tag}
+        set x0 20; set x $x0; set y 50
+        set dx 25; set dy 20
+        set xmax [expr {$x0+$dx*6}]
+        set a(date) [clock scan $a(month)/$a(day)/$a(year)]
+        set title [format [monthname $a(month)] $a(year)]
+        $c create text [expr ($xmax+$dx)/2] 30 -text $title -fill blue \
+            -font $a(-titlefont) -tag title
+        set weekdays $a(weekdays,$a(language))
+        if !$a(-mon) {lcycle weekdays}
+        foreach i $weekdays {
+            $c create text $x $y -text $i -fill blue \
+                -font $a(-font) -tag title
+            incr x $dx
+        }
+        set first $a(month)/1/$a(year)
+        set weekday [clock format [clock scan $first] -format %w]
+        if !$a(-mon) {set weekday [expr {($weekday+6)%7}]}
+    	set x [expr {$x0+$weekday*$dx}]
+    	set x1 $x; set offset 0
+        incr y $dy
+    	while {$weekday} {
+    	    set t [clock scan "$first [incr offset] days ago"]
+            scan [clock format $t -format "%d"] %d day
+            $c create text [incr x1 -$dx] $y -text $day \
+                -fill grey -font $a(-font) -tag otherday
+            incr weekday -1
+    	}
+        set dmax [numberofdays $a(month) $a(year)]
+        for {set d 1} {$d<=$dmax} {incr d} {
+            set id [$c create text $x $y -text $d -tag day -font $a(-font)]
+            if {$d==$a(day)} {
+                eval $c create rect [$c bbox $id] \
+                    -fill $a(-highlight) -outline $a(-highlight) -tag day
+            }
+            $c raise $id
+            if {[incr x $dx]>$xmax} {set x $x0; incr y $dy}
+        }
+        if {$x != $x0} {
+    	    for {set d 1} {$x<=$xmax} {incr d; incr x $dx} {
+                $c create text $x $y -text $d \
+                    -fill grey -font $a(-font) -tag otherday
+            }
+        }
+    }
+    proc format {month year} {
+        variable a
+        if ![info exists a(format,$a(language))] {
+            set format "%m %y" ;# default
+        } else {set format $a(format,$a(language))}
+        foreach {from to} [list %m $month %y $year] {
+            regsub $from $format $to format
+        }
+        subst $format
+    }
+    proc monthname {month {language default}} {
+        variable a
+        if {$language=="default"} {set language $a(language)}
+        if {[info exists a(mn,$language)]} {
+            set res [lindex $a(mn,$language) $month]
+        } else {set res $month}
+    }
+    array set a {
+        language en
+        
+        mn,en {
+        . January February March April May June July August
+        September October November December
+        }
+        weekdays,en {Sun Mon Tue Wed Thu Fri Sat}
+
+	mn,es {
+        . Enero Febrero Marzo Abril Mayo Junio Julio Agosto
+        Septiembre Octubre Noviembre Diciembre
+        }
+	weekdays,es {Do Lu Ma Mi Ju Vi Sa}
+
+	mn,fr {
+        . Janvier Février Mars Avril Mai Juin Juillet Août
+        Septembre Octobre Novembre Décembre
+        }
+        weekdays,fr {Di Lu Ma Me Je Ve Sa}
+	
+	mn,pt {
+        . Janeiro Fevreiro Março Avril Maio Junho Julho Agosto
+        Septembre Octoubre Novembre Decembre
+        }
+        weekdays,pt {Do 2a 3a 4a 5a 6a Sa}
+                
+    }
+    proc numberofdays {month year} {
+        if {$month==12} {set month 0; incr year}
+        clock format [clock scan "[incr month]/1/$year  1 day ago"] \
+            -format %d
+    }
+ } ;# end namespace date
+
+ proc lcycle _list {
+    upvar $_list list
+    set list [concat [lrange $list 1 end] [list [lindex $list 0]]]
+ }
+ proc cbutton {w x y text command} {
+    set txt [$w create text $x $y -text " $text "]
+    set btn [eval $w create rect [$w bbox $txt] \
+        -fill grey -outline grey]
+    $w raise $txt
+    foreach i [list $txt $btn] {$w bind $i <1> $command}
+ }
+
+ #------ test and demo code (terminate by closing the main window)
+font create font  -family fixed
+
+ date::chooser .1
+checkbutton .mon -variable date::a(-mon) -text "Sunday starts week"
+trace variable date::a(-mon) w {date::display ;#}
+regsub -all weekdays, [array names date::a weekdays,*] "" languages
+foreach i [lsort $languages] {
+ radiobutton .b$i -text $i -variable date::a(language) -value $i -pady 0
+ }
+trace variable date::a(language) w {date::display ;#}
+tk::button .3 -text QUIT -command {destroy . }
+
+ eval pack [winfo children .] -fill x -anchor w
+
+bind . <Escape> {exit}
+
+
