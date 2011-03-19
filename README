@@ -17,15 +17,11 @@ pdflatex: http://www.tug.org/applications/pdftex/
 latex2html: http://www.latex2html.org/
 
 FTP tools require tcl package ftp
-(just do teacup install ftp
-if you don't already have it.)
-
-The Livejournal posting feature requires package http
-Also, it only works if you have a Livejournal.
-Get one: http://www.livejournal.com
-Mine is http://tonytraductor.livejournal.com
+the blog posting features require http
 
 tcl ft and http are part of tcllib.
+If you don't have that, for most, it's as simple as
+aptitude/yum/apt-get/teacup install tcllib
 ----
 
 tickle text requires:
