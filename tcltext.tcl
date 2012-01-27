@@ -32,10 +32,6 @@ global lino
 global filetypes
 global wrap
 global host
-global ljname
-global ijname
-global ijpass
-global ljpswrd
 global filename
 
 set filename " "
@@ -48,7 +44,7 @@ font create font  -family fixed
 
 set novar "cows"
 
-set allvars [list host path username txfg password author txbg emal brow wbg wtx ljname ljpswrd ijname ijpass novar]
+set allvars [list host path username txfg password author txbg emal brow wbg wtx novar]
 
 ## filetypes
 ################
@@ -102,13 +98,13 @@ tk_setPalette background $::wbg foreground $::wtx
 
 
 ## icon
-image  create  photo  tcltico -format GIF -file  /usr/share/tcltxt.gif
+image  create  photo  tcltico -format GIF -file  ~/.tcltext/tcltxt.gif
 
 
 ## start the editor window
 #####################################################
 
-wm title . "Tickle Text" 
+wm title . "TclText" 
 
 ######3
 # Menus
@@ -176,10 +172,6 @@ menu .fluff.lh.p -tearoff 1
 .fluff.lh.p add separator
 .fluff.lh.p add command -label "HTML Template" -command {webtemp}
 .fluff.lh.p add command -label "FTP" -command {setFTP}
-.fluff.lh.p add separator
-.fluff.lh.p add command -label "LiveJ Post" -command {ljpost}
-.fluff.lh.p add comman -label "InsaneJ Post" -command {ijpost}
-
 
 # tools menu
 ################################
@@ -396,7 +388,7 @@ toplevel .about
 wm title .about "About TickleText"
 # tk_setPalette background $::wbg 
 
-tk::message .about.t -text "TickleText\n by Tony Baldwin\n tony@baldwinsoftware.com\n A quick and ticklish text editor\n Released under the GPL\n For more info see README, or\n http://www.baldwinsoftware.com/tcltext.html\n" -width 270
+tk::message .about.t -text "TickleText\n by Tony Baldwin\n tony@tonybaldwin.org\n A quick and ticklish text editor\n Released under the GPL\n For more info see README, or\n http://tonyb.us/tcltext\n" -width 270
 tk::button .about.o -text "Okay" -command {destroy .about} 
 pack .about.t -in .about -side top
 pack .about.o -in .about -side top
@@ -903,7 +895,7 @@ proc yclear {} {
 	.txt.txt edit reset
 	.txt.txt edit modified 0
 	set ::filename " "
-	wm title . "Tickle Text"
+	wm title . "TclText"
 }
 
 
@@ -1681,9 +1673,9 @@ pack .fhelp.inf -in .fhelp -side top
 
 proc help {} {
 toplevel .help
-wm title .help "Tickle Text help"
+wm title .help "TclText help"
 text .help.inf -width 80 -height 15
-.help.inf insert end "TickleText is FREE Software, released under the terms of the Gnu Public License\n\nMost of what this program does should be pretty self-explanatory.\nThe script templates will make your software GPL.\nIf you don't want to release your code to the FREE software community,\nuninstall Tickle Text and go find some crappy proprietary text editor.\n\nThe FTP tool has a distinct help window.\nIf you have questions about tcl, perl, python, LaTeX, html, or other code\ngoogle is your friend...\nIf you have questions about how Tickle Text works, feel free to e-mail me at\ntony@baldwinsoftware.com\n\ntony\nwww.baldwinsoftware.com"
+.help.inf insert end "TclText is FREE Software, released under the terms of the Gnu Public License\n\nMost of what this program does should be pretty self-explanatory.\nThe script templates will make your software GPL.\nIf you don't want to release your code to the FREE software community,\nuninstall TclText and go find some crappy proprietary text editor. Seriously.\n\nThe FTP tool has a distinct help window.\nIf you have questions about tcl, perl, python, LaTeX, html, or other code\ngoogle is your friend...\nIf you have questions about how TclText works, feel free to e-mail me at\ntony@tonybaldwin.org\n\ntony\nhttp://tonybaldwin.me"
 tk::button .help.out -text "Okay" -command {destroy .help}
 pack .help.out -in .help -side top
 pack .help.inf -in .help -side top
@@ -1697,7 +1689,7 @@ proc prefs {} {
 
 toplevel .pref
 
-wm title .pref "Tickle Text preferences"
+wm title .pref "TclText preferences"
 
 
 grid [tk::label .pref.lbl -text "Set global prefernces here"]
@@ -1731,233 +1723,8 @@ grid [tk::label .pref.unam -text "Username: "]\
 [tk::label .pref.pwrd -text "Password: "]\
 [tk::entry .pref.pswrd -show * -textvariable password]
 
-grid [tk::label .pref.ljo -text "LiveJournal:"]
-
-grid [tk::label .pref.ljn -text "LJ Username:"]\
-[tk::entry .pref.ljnome -textvariable ljname]\
-[tk::label .pref.ljp -text "LJ password:"]\
-[tk::entry .pref.ljpw -show * -textvariable ljpswrd]
-
-grid [tk::label .pref.ijo -text "InsaneJournal:"]
-
-grid [tk::label .pref.ijn -text "IJ Username:"]\
-[tk::entry .pref.ijnome -textvariable ijname]\
-[tk::label .pref.ijp -text "IJ password:"]\
-[tk::entry .pref.ijpw -show * -textvariable ijpass]
-
 grid [tk::button .pref.sv -text "Save Preferences" -command sapro]\
 [tk::button .pref.ok -text "OK" -command {destroy .pref}]
-
-
-}
-
-
-
-
-
-################
-# post to livejournal...
-
-proc ljpost {} {
-     
-global post
-global plength
-global login
-global lurl
-global subject
-global mood
-global tunes
-global tags
-global year
-global mon
-global day
-global hour
-global min
-global mood
-global tunes
-global tags
-global ptext
-global lprops
-global usej
-
-set subject "subject"
-set mood "mood"
-set tags "enter, tags, here"
-set tunes "music"
-set usej "$::ljname"
-set lurl "http://www.livejournal.com/interface/flat:80"
-
-set year [clock format [clock second] -format %Y]
-set mon [clock format [clock seconds] -format %m]
-set day [clock format [clock seconds] -format %d]
-set hour [clock format [clock seconds] -format %H]
-set min [clock format [clock seconds] -format %M]
-
-
-
-toplevel .lj
-wm title .lj "LiveJournal Post"
-
-grid [tk::label .lj.ljname -text "LJ Username:"]\
-[tk::entry .lj.uname -textvariable ljname]\
-[tk::label .lj.pwd -text "LJ Password:"]\
-[tk::entry .lj.pswd -show * -textvariable ljpswrd]
-
-grid [tk::label .lj.date -text "Post time="]\
-[tk::label .lj.dato -text "$year $mon $day - $hour : $min"]
-
-grid [tk::label .lj.sujet -text "Subject:"]\
-[tk::entry .lj.assunto -textvariable subject]
-
-grid [tk::label .lj.md -text "Current mood:"]\
-[tk::entry .lj.mude -textvariable mood]
-
-grid [tk::label .lj.tunages -text "Current music:"]\
-[tk::entry .lj.tunez -textvariable tunes]
-
-grid [tk::label .lj.oj -text "Post to:"]\
-[tk::entry .lj.uj -textvariable usej]
-
-grid [tk::label .lj.tagz -text "Tags:"]\
-[tk::entry .lj.tagit -textvariable tags]
-
-set ptext [.txt.txt get 1.0 {end -1c}]
-
-
-set login [::http::formatQuery mode login user $::ljname password $::ljpswrd ]
-set log [http::geturl $lurl -query $login]
-
-
-
-
-grid [tk::button .lj.go -text "POST" -command {
-    
-set post [::http::formatQuery mode postevent auth_method clear user $::ljname password $::ljpswrd subject $::subject year $::year mon $::mon day $::day hour $::hour min $::min prop_current_music $::tunes prop_current_mood $::mood prop_taglist $::tags usejournal $::usej event $::ptext ]
-set plength [string length $::post]
-set dopost [http::geturl $::lurl -query $::post]
-# set ljmta [http::meta $dopost]
-set ljl [http::size $dopost]
-set ljstat [http::status $dopost]
-tk_messageBox -message "Frank says: $ljstat\nPost length: $ljl"
-}]\
-[tk::button .lj.bro -text "VIEW Journal" -command {
-    set ljv "http://$::usej.livejournal.com"
-    exec $::brow $ljv &
-    }]\
-    [tk::button .lj.ajuda -text "LJ Help" -command {ljhelp}]\
-[tk::button .lj.no -text "DONE" -command {destroy .lj}]
-
-}
-
-
-#####################################
-# LJ help dialog
-proc ljhelp {} {
-toplevel .ljhelp
-wm title .ljhelp "Tickle Text help"
-text .ljhelp.inf -width 80 -height 15
-.ljhelp.inf insert end "LJ posting with Tickle Text is pretty basic, at this juncture,\n and is only enabled to post to your own journal.\nFill in the fields, as described, which should be self-explanatory.\n\nMy LJ is (you may have guessed) http://tonytraductor.livejournal.com\nIf you are using InsaneJournal, mine is http://tonybaldwin.insanejournal.com\nIf you have questions about how Tickle Text works, feel free to e-mail me at\ntony@baldwinsoftware.com\nor hit me up on LJ\n\ntony\nwww.baldwinsoftware.com"
-tk::button .ljhelp.out -text "Okay" -command {destroy .ljhelp}
-tk::button .ljhelp.vt -text "visit tony\'s LJ" -command {
-set tlj "http://tonytraductor.livejournal.com"
-exec $::brow $tlj &}
-
-pack .ljhelp.out -in .ljhelp -side top
-pack .ljhelp.inf -in .ljhelp -side top
-pack .ljhelp.vt -in .ljhelp -side top
-}
-
-################
-# post to insanejournal...
-
-proc ijpost {} {
-     
-global post
-global plength
-global login
-global lurl
-global subject
-global mood
-global tunes
-global tags
-global year
-global mon
-global day
-global hour
-global min
-global mood
-global tunes
-global tags
-global ptext
-global lprops
-global usej
-
-set subject "subject"
-set mood "mood"
-set tags "enter, tags, here"
-set tunes "music"
-set usej "$::ijname"
-set lurl "http://www.insanejournal.com/interface/flat:80"
-
-set year [clock format [clock second] -format %Y]
-set mon [clock format [clock seconds] -format %m]
-set day [clock format [clock seconds] -format %d]
-set hour [clock format [clock seconds] -format %H]
-set min [clock format [clock seconds] -format %M]
-
-
-
-toplevel .ij
-wm title .ij "InsaneJournal Post"
-
-grid [tk::label .ij.ijname -text "IJ Username:"]\
-[tk::entry .ij.uname -textvariable ijname]\
-[tk::label .ij.pwd -text "IJ Password:"]\
-[tk::entry .ij.pswd -show * -textvariable ijpass]
-
-grid [tk::label .ij.date -text "Post time="]\
-[tk::label .ij.dato -text "$year $mon $day - $hour : $min"]
-
-grid [tk::label .ij.sujet -text "Subject:"]\
-[tk::entry .ij.assunto -textvariable subject]
-
-grid [tk::label .ij.md -text "Current mood:"]\
-[tk::entry .ij.mude -textvariable mood]
-
-grid [tk::label .ij.tunages -text "Current music:"]\
-[tk::entry .ij.tunez -textvariable tunes]
-
-grid [tk::label .ij.oj -text "Post to:"]\
-[tk::entry .ij.uj -textvariable usej]
-
-grid [tk::label .ij.tagz -text "Tags:"]\
-[tk::entry .ij.tagit -textvariable tags]
-
-set ptext [.txt.txt get 1.0 {end -1c}]
-
-
-set login [::http::formatQuery mode login user $::ijname password $::ijpass ]
-set log [http::geturl $lurl -query $login]
-
-
-
-
-grid [tk::button .ij.go -text "POST" -command {
-    
-set post [::http::formatQuery mode postevent auth_method clear user $::ijname password $::ijpass subject $::subject year $::year mon $::mon day $::day hour $::hour min $::min prop_current_music $::tunes prop_current_mood $::mood prop_taglist $::tags usejournal $::usej event $::ptext ]
-set plength [string length $::post]
-set dopost [http::geturl $::lurl -query $::post]
-# set ljmta [http::meta $dopost]
-set ljl [http::size $dopost]
-set ljstat [http::status $dopost]
-tk_messageBox -message "Tweak says: $ljstat\nPost length: $ljl"
-}]\
-[tk::button .ij.bro -text "VIEW Journal" -command {
-    set ljv "http://$::usej.insanejournal.com"
-    exec $::brow $ljv &
-    }]\
-    [tk::button .ij.ajuda -text "IJ Help" -command {ljhelp}]\
-[tk::button .ij.no -text "DONE" -command {destroy .ij}]
 
 }
 
