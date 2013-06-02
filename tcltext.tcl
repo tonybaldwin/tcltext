@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # a text editor written with Tcl8.5
-# copyright anthony baldwin / tony@baldwinsoftware.com / http://www.baldwinsoftware.com/tcltext.html
+# copyright anthony baldwin / tony@tonybaldwin.info/ http://tonyb.us/tcltext
 # released according to the terms of the Gnu Public License v. 2 or later.
 # just tricking tcl here\
 exec wish8.5 -f "$0" ${1+"$@"}
