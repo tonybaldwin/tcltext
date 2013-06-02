@@ -1,8 +1,9 @@
 #!//usr/bin/env wish8.5
 # Tickle Dict 
-# T-Dictionary, by tonytraductor@linguasos.org
-# This program is provided according to the terms of the GNU GPL version 3, or at your option
-# any later version.  All terms and conditions therein apply.   \
+# T-Dictionary, by tonybaldwin
+# http://tonyb.us/tdict
+# This program is provided according to the terms of the GNU GPL version 3, 
+# or at your option any later version.  All terms and conditions therein apply.   \
 
 
 package require Tk
