@@ -1,6 +1,7 @@
 #!//usr/bin/env wish8.5
 # Tickle Dict 
-# T-Dictionary, by tonytraductor@linguasos.org
+# T-Dictionary, by tony baldwin
+# http://tonyb.us/tdict
 # This program is provided according to the terms of the GNU GPL version 3, or at your option
 # any later version.  All terms and conditions therein apply.   \
 
