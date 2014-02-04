@@ -11,8 +11,16 @@ http://tonyb.us/tcltext
 
 ## DEPENDENCIES:
 
-LaTeX and pdf functions depend upon enscript, pdflatex,
-and latex2html.
+tickle text requires:
+
+* Tcl/Tk8.5 (or newer)
+
+Get it here:
+* http://www.activestate.com/ActiveTcl
+or
+* http://sourceforge.net/projects/tcl/
+
+LaTeX and pdf functions depend upon enscript, pdflatex, and latex2html.
 Most gnu/linux distros, to my knowledge, will already have most of those
 by default, but, if not, install with your distro's pkg manager
 (apt, yum, pacman, whatever) or get them here:
@@ -30,26 +38,15 @@ If you don't have that, for most, it's as simple as
 
 ActiveTcl distribution includes Tcllib.
 
-----
-
-tickle text requires:
-
-* Tcl/Tk8.5 (or newer)
-
-Get it here:
-* http://www.activestate.com/ActiveTcl
-or
-* http://sourceforge.net/projects/tcl/
-
-----
-
 While tcl is cross-platform and most of tcltext will work on Windows,
-I do not recommend tcltext for windows users.
-You are free to try, but, I offer you no support.
-Your OS sucks. Sorry.
+some of its features wont work, just yet. I'm working on a new, better cross-platform release
+more accomodating for Windows (needs work in printing and a few other things).
+Hold on! (as of 2014-02-03)
 
 As far as I know, everyting should work fine on any Linux,
-or BSD system, and, possibly, OSX.
+or BSD system, and, probably, OSX.
+
+### Installation
 
 Installation for gnu/linux or OSX:
 
