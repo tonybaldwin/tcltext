@@ -8,6 +8,9 @@ echo "Installing Tickle Text..."
 if [ ! $HOME/bin/ ];
 	# if you have no /home/you/bin, we make one to install tcltext in
 	then mkdir $HOME/bin
+	$PATH=$PATH:/$HOME/bin/
+	export PATH
+
 fi
 
 echo "Checking for configs, and setting them up if you don't have them..."
