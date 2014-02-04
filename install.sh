@@ -1,6 +1,5 @@
 #!/bin/bash
-
-
+# install tcltext
 name=$(whoami)
 
 echo "Installing Tickle Text..."
