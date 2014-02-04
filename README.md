@@ -1,13 +1,15 @@
 TickleText 2.4 README:
 ----
   
-![TclText](www.tonybaldwin.info/images/tcltext020314204513.jpg)
+![TclText](http://www.tonybaldwin.info/images/tcltext020314204513.jpg)
 
 TickleText was created by Anthony Baldwin 
 http://wiki.tonybaldwin.info
 http://tonyb.us/tcltext
+
 ----
-DEPENDENCIES:
+
+## DEPENDENCIES:
 
 LaTeX and pdf functions depend upon enscript, pdflatex,
 and latex2html.
@@ -27,6 +29,7 @@ If you don't have that, for most, it's as simple as
 `aptitude/yum/apt-get/teacup install tcllib`
 
 ActiveTcl distribution includes Tcllib.
+
 ----
 
 tickle text requires:
@@ -34,9 +37,9 @@ tickle text requires:
 * Tcl/Tk8.5 (or newer)
 
 Get it here:
-http://www.activestate.com/ActiveTcl
+* http://www.activestate.com/ActiveTcl
 or
-http://sourceforge.net/projects/tcl/
+* http://sourceforge.net/projects/tcl/
 
 ----
 
@@ -52,9 +55,12 @@ Installation for gnu/linux or OSX:
 
 cd to the dir where you've downloaded
 and extracted the tarball and do 
-tar -xf tcltext2.3.tar.gz
-su or sudo
-./install.sh
+`tar -xf tcltext2.3.tar.gz`
+
+or just clone the git repo, and cd to that dir.
+Either way, do:
+
+`./install.sh`
 
 This should move all relevant scripts to
 $HOME/bin, and properly change permissions,
