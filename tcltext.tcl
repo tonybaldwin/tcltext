@@ -11,7 +11,6 @@ package require http
 
 uplevel #0 [list source ~/.tcltext/tcltext.conf]
 
-
 ## global variables
 
 global butn
@@ -41,7 +40,6 @@ set wrap word
 font create font  -family fixed
 
 set novar "cows"
-
 set allvars [list host path username txfg password author txbg emal brow wbg wtx novar]
 
 ## filetypes
@@ -70,7 +68,6 @@ set file_types {
 
 # bindings
 ########################
-
 
 bind . <Escape> leave
 bind . <F1> {linenums .txt.txt}
@@ -123,7 +120,6 @@ tk::menubutton .fluff.tul -text Tools -menu .fluff.tul.t
 tk::menubutton .fluff.clrs -text Display -menu .fluff.clrs.c 
 tk::label .fluff.font1 -text "Font size:" 
 ttk::combobox .fluff.size -width 4 -value [list 8 10 12 14 16 18 20 22 24 28] -state readonly
-
 
 # file menu
 #############################
@@ -195,7 +191,6 @@ menu .fluff.tul.t -tearoff 1
 .fluff.tul.t add separator
 .fluff.tul.t add command -label "HELP!" -command {help}
 
-
 tk::button .fluff.abt -image tcltico -command {about}
 
 # pack ém in...
@@ -237,7 +232,6 @@ focus .txt.txt
 set foco .txt.txt
 bind .txt.txt <FocusIn> {set foco .txt.txt}
 bind .txt.txt <Return> {indent %W;break}
-
 
 # toggle word wrap
 ###########################################
@@ -282,7 +276,7 @@ proc file_saveas {} {
 global filename
 set filename [tk_getSaveFile -filetypes $::file_types]
    set data [.txt.txt get 1.0 {end -1c}]
-   wm title . "Now Tickling: $::filename"
+   wm title . "Now Tickling: [file tail $::filename]"
    set fileid [open $::filename w]
    puts -nonewline $fileid $data
    close $fileid
@@ -302,7 +296,7 @@ proc texpdf {} {
 	global filename
 	set filename [tk_getSaveFile -filetypes $::file_types]
 	set data [.txt.txt get 1.0 {end -1c}]
-	wm title . "Now Tickling: $::filename"
+	wm title . "Now Tickling: [file tail $::filename]"
 	set fileid [open $::filename w]
 	puts -nonewline $fileid $data
 	close $fileid
@@ -326,7 +320,7 @@ proc pdfout {} {
    global filename
    set filename [tk_getSaveFile -filetypes $::file_types]
    set data [.txt.txt get 1.0 {end -1c}]
-   wm title . "Now Tickling: $::filename"
+   wm title . "Now Tickling: [file tail $::filename]"
    set fileid [open $::filename w]
    puts -nonewline $fileid $data
    close $fileid
@@ -346,7 +340,7 @@ eval exec latex2html $::filename $::filename.html
 } else {
    set filename [tk_getSaveFile -filetypes $::file_types]
    set data [.txt.txt get 1.0 {end -1c}]
-   wm title . "Now Tickling: $::filename"
+   wm title . "Now Tickling: [file tail $::filename]"
    set fileid [open $::filename w]
    puts -nonewline $fileid $data
    close $fileid
@@ -364,7 +358,7 @@ if {$::filename != " "} {
 	} else {
 	global filename
 	set filename [tk_getOpenFile -filetypes $::file_types]
-	wm title . "Now Tickling: $::filename"
+	wm title . "Now Tickling: [file tail $::filename]"
 	set data [open $::filename RDWR]
 	.txt.txt delete 1.0 end
 	while {![eof $data]} {
@@ -407,7 +401,6 @@ pack .about.o -in .about -side top
 
 }
 
-
 # find/replace/go to line
 ############################################FIND REPLACE DIALOG
 
@@ -434,7 +427,6 @@ pack .fpop.l1.finfo -in .fpop.l1 -side left
 pack .fpop.l1.finbk -in .fpop.l1 -side left
 pack .fpop.l1.tagall -in .fpop.l1 -side left
 pack .fpop.l1 -in .fpop -fill x
-
 
 frame .fpop.l2 -bd 2 -relief raised
 
@@ -463,7 +455,6 @@ pack .fpop.l3.line -in .fpop.l3 -side left
 pack .fpop.l3.now -in .fpop.l3 -side left
 pack .fpop.l3.dismis -in .fpop.l3 -side right
 pack .fpop.l3 -in .fpop -fill x
-
 
 # focus .fpop.en1
 }
@@ -644,7 +635,6 @@ proc wintex {} {
 
  }
 
-
 ## toggle line number display
 
 proc linenums {w} {
@@ -659,8 +649,6 @@ proc linenums {w} {
         }
     }
 }
-
-
 
 global charlist
 set charlist [list \
@@ -683,7 +671,6 @@ set charlist [list \
 	"ò" "ó" "ô" "õ" "ö" \
 	"÷" "ø"	"ù" "ú" "û" \
 	"ü" "ý" "þ" "ÿ"]
-
 
 # Procedure for finding correct text or entry widget
 # and inserting special (or non-special) characters:
@@ -747,11 +734,9 @@ proc range {start cutoff finish {step 1}} {
 	return $ranger
 }
 
-
 set specialbutts [list]
 
 #  This special box was borrowed from Pa McClemmock's Supernotepad.
-
 proc specialbox {} {
 	global charlist foco buttlist
 	toplevel .spec
@@ -830,7 +815,6 @@ proc specialbox {} {
 }
 
 ## go to line number 
-
 proc gotoline {} {
 	set newlineno [.fpop.l3.line get]
 	.txt.txt mark set insert $newlineno.0
@@ -839,9 +823,7 @@ proc gotoline {} {
 	set foco .txt.txt
 }
 
-
 ## show word count
-
 proc wordcount {} {
 	set wordsnow [.txt.txt get 1.0 {end -1c}]
 	set wordlist [split $wordsnow]
@@ -861,7 +843,6 @@ proc wordcount {} {
 	pack .count.show -in .count -side top
 	pack .count.ok -in .count -side top
 }
-
 
 ## insert time stamp
 
@@ -886,7 +867,6 @@ proc leave {} {
 		} else {exit}
 }
 
-
 ## clear text widget / close document
 #########################################
 
@@ -910,7 +890,6 @@ proc yclear {} {
 	wm title . "TclText"
 }
 
-
 # open html in browser
 ###########################################
 
@@ -925,9 +904,6 @@ proc browz {} {
 	}
 }
 
-
-
-
 # LaTeX template dialog
 ####################################
 
@@ -937,7 +913,6 @@ toplevel .laxt
 
 wm title .laxt "TeX Template"
 
-
 frame .laxt.doc -bd 2
 
 tk::label .laxt.doc.tit -text "Title:"
@@ -945,8 +920,6 @@ tk::entry .laxt.doc.ttl -textvariable title
 tk::label .laxt.doc.d -text "Document Type:"
 ttk::combobox .laxt.doc.t -width 12 -value [list article report book memoir letter proc minimal slides]\
  -state readonly -textvariable doctype
-
-
 
 pack .laxt.doc.tit -in .laxt.doc -side left
 pack .laxt.doc.ttl -in .laxt.doc -side left
@@ -956,15 +929,11 @@ pack .laxt.doc -in .laxt -fill x
 
 frame .laxt.fn -bd 2
 
-
 tk::label .laxt.fn.f -text "Font size:"
 ttk::combobox .laxt.fn.s -width 4 -value [list 10 11 12] -state readonly -textvariable lfont
 
-
 tk::label .laxt.fn.tp -text "Title page:"
 ttk::combobox .laxt.fn.tpg -width 12 -value [list titlepage notitlepage] -textvariable tpage
-
-
 
 pack .laxt.fn.f -in .laxt.fn -side left
 pack .laxt.fn.s -in .laxt.fn -side left
@@ -980,7 +949,6 @@ tk::label .laxt.ppr.l -text "Paper:"
 ttk::combobox .laxt.ppr.s -width 12 -value [list a4paper a5paper letterpaper executivepaper legalpaper]\
  -state readonly -textvariable paper
 
-
 pack .laxt.ppr.au -in .laxt.ppr -side left
 pack .laxt.ppr.atr -in .laxt.ppr -side left
 pack .laxt.ppr.l -in .laxt.ppr -side left
@@ -991,8 +959,6 @@ frame .laxt.col -bd 2
 
 tk::label .laxt.col.l -text "Columns:"
 ttk::combobox .laxt.col.no -value [list onecolumn twocolumn] -state readonly -textvariable columns
-
-
 
 tk::button .laxt.col.apply -text "APPLY" -command {maketex}
 tk::button .laxt.col.close -text "DONE" -command {destroy .laxt}
@@ -1012,16 +978,13 @@ frame .laxt.t
 
 proc maketex { } {
 
-
 set date [clock format [clock seconds] -format "%R %p %D"]
-
 
 .txt.txt insert end "\\documentclass\[$::lfont, $::paper, $::columns, $::tpage\]\{$::doctype\} \n\\title\{$::title\} \n\\author\{$::author\} \n\\date\{$date\} \n\\usepackage\{hyperref\} \n\\usepackage\{graphicx\} \n \n\\begin\{document\} \n\\maketitle \n\\tableofcontents \n \n \\section\[section1title\]\{section1heading\} \nsection one here \n \\subsection \n \n \\section\[section2title\]\{section2heading\} \nsection two here \n \n\\end\{document\} \n \n NOTES: format ULRs like this: \n \\url\{http://www.baldwinsoftware.com\} \n format images like this:\n \\includegraphics\[scale=0.5\]\{/pathto/image.jpg\} \n LISTS:\n \\begin\{enumerate\} \n \\item \n \\end\{enumerate\}"
 
 destroy .laxt
 
 }
-
 
 ## found this on wiki.tcl.tck  - preserves indentation
 #######################################################
@@ -1054,7 +1017,6 @@ proc tindent {w {extra "    "}} {
 	}
  }
 
-
 ##  Tcl script template #######################
 ## just inserts interpreter and GPL information.
 ##################################################
@@ -1062,7 +1024,6 @@ proc tindent {w {extra "    "}} {
 proc tcltemp {} {
     
 toplevel .tclt
-
 wm title .tclt "Tcl Template"
 
 tk::label .tclt.tit -text "Title:"
@@ -1087,9 +1048,7 @@ pack .tclt.b2 -in .tclt -side left
 # tcl insertion
 #########################
 
-
 proc intcl {} {
-
 
 .txt.txt insert end "#!/bin/sh \n \n\# $::title copyright $::author - $::emal\n# just tricking tcl here\\ \nexec wish8.5 -f \"\$0\" \$\{1+\" \$@\"\} \n \n content here \n \n# This program was written by $::author - $::emal \n# This program is free software; you can redistribute it and/or modify \n# it under the terms of the GNU General Public License as published by \n# the Free Software Foundation; either version 2 of the License, or \n# (at your option) any later version.\n# This program is distributed in the hope that it will be useful,\n# but WITHOUT ANY WARRANTY; without even the implied warranty of\n# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n# GNU General Public License for more details.\n# You should have received a copy of the GNU General Public License\n# along with this program; if not, write to the Free Software\n# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA."
 
@@ -1141,8 +1100,7 @@ proc webtemp {} {
     pack .web.keys.wrds -in .web.keys -side left
     
     frame .web.colors -bd 2
-    
-   
+
     tk::button .web.colors.bgcolor -text "Background color:" -command {weback}
     tk::label .web.colors.bgcor -text "----------"
     
@@ -1151,7 +1109,6 @@ proc webtemp {} {
     
     tk::button .web.colors.lcolor -text "Link color:" -command {lncolor}
     tk::label .web.colors.lncor -text "---------"
-    
     
     pack .web.colors.bgcolor -in .web.colors -side left
     pack .web.colors.bgcor -in .web.colors -side left
@@ -1167,10 +1124,8 @@ proc webtemp {} {
     tk::button .web.buttons.go -text "GO" -command {inweb}
     tk::button .web.buttons.stop -text "CANCEL" -command {destroy .web}
     
-    
     pack .web.buttons.stop -in .web.buttons -side right
     pack .web.buttons.go -in .web.buttons -side right
-    
     
     pack .web.info -in .web -fill x
     pack .web.desc -in .web -fill x
@@ -1194,7 +1149,6 @@ proc lncolor {} {
     set ::lcolor [tk_chooseColor -initialcolor black]
     .web.colors.lncor configure -bg $::lcolor
  }
-  
     
 ### inserting html code      
 ############################
@@ -1202,14 +1156,21 @@ proc lncolor {} {
 proc inweb {} {
     
     set date [clock format [clock seconds] -format "%D"]
-    
    
-    .txt.txt insert end "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" 
-\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n\n<html><head>\n\n<title>$::title</title>\n<meta name=\"description\" 
-content=\"$::descript\">\n<meta name=\"keywords\" content=\"$::keywords\">\n<meta name=\"Generator\" content=\"TickleText - by 
-Anthony Baldwin\">\n <meta name=\"author\" content=\"$::author\">\n</head>\n\n<body bgcolor=\"$::wbgcor\" text=\"$::wfgcor\" 
-link=\"$::lcolor>\">\n<h2>$::title</h2>\n<p>this is a paragraph</p>\n<hr>\nThis page copyright $date by $::author <br>created 
-with: <a href=\"http://www.baldwinsoftware.com/tcltext.html\">TickleText</a>\n</body>"
+    .txt.txt insert end "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n\n<html>
+<head>
+<title>$::title</title>
+<meta name=\"description\" content=\"$::descript\">\n<meta name=\"keywords\" content=\"$::keywords\">
+<meta name=\"Generator\" content=\"TickleText - by Anthony Baldwin\">
+<meta name=\"author\" content=\"$::author\">
+</head>
+
+<body bgcolor=\"$::wbgcor\" text=\"$::wfgcor\" link=\"$::lcolor\">
+<h2>$::title</h2>
+<p>this is a paragraph</p>
+<hr>
+This page copyright $date by $::author <br>created with: <a href=\"http://tonyb.us/tcltext\">TclText</a>
+</body>"
     
 destroy .web
 
@@ -1251,15 +1212,12 @@ pack .perlt.b2 -in .perlt -side left
 # tcl insertion
 #########################
 
-
 proc inperl {} {
-
 
 .txt.txt insert end "#!/usr/bin/perl \n \n\# $::title copyright $::author - $::emal \nuse strict;\nuse warnings;\n\n content here \n \n# This program was written by $::author - $::emal \n# This program is free software; you can redistribute it and/or modify \n# it under the terms of the GNU General Public License as published by \n# the Free Software Foundation; either version 2 of the License, or \n# (at your option) any later version.\n# This program is distributed in the hope that it will be useful,\n# but WITHOUT ANY WARRANTY; without even the implied warranty of\n# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n# GNU General Public License for more details.\n# You should have received a copy of the GNU General Public License\n# along with this program; if not, write to the Free Software\n# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA."
 
 destroy .perlt
 }
-
 
 ##  Python script template #######################
 ## just inserts interpreter and GPL information.
@@ -1293,24 +1251,18 @@ pack .pyt.b2 -in .pyt -side left
 # tcl insertion
 #########################
 
-
 proc inpy {} {
-
 
 .txt.txt insert end "#!/usr/bin/python \n \n\# $::title copyright $::author - $::emal \n \n content here \n \n# This program was written by $::author - $::emal \n# This program is free software; you can redistribute it and/or modify \n# it under the terms of the GNU General Public License as published by \n# the Free Software Foundation; either version 2 of the License, or \n# (at your option) any later version.\n# This program is distributed in the hope that it will be useful,\n# but WITHOUT ANY WARRANTY; without even the implied warranty of\n# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n# GNU General Public License for more details.\n# You should have received a copy of the GNU General Public License\n# along with this program; if not, write to the Free Software\n# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA."
 
 destroy .pyt
 }
 
-
-
-
 ####################3
 #  to comment or uncomment lines:
 # not ready yet...
 # need to work on reading the selection
 # 
-#
 proc Comment {} {
 
 	# globalize
@@ -1407,9 +1359,6 @@ proc Uncomment {} {
 
 }
 
-
-
-
 proc sapro {} {
     
     set xanswer [tk_messageBox -message "This will save your color theme, browser preference, terminal preference, and ftp server settings, INCLUDING YOUR PASSWORD, unless you clear the field first.\n  Choose yes to change the password to 0000 and save, or no to save as is."\
@@ -1457,7 +1406,6 @@ frame .ftps.notes
 tk::label .ftps.notes.lab -text "PROFILE:"
 
 pack .ftps.notes -in .ftps -fill x
-
 
 frame .ftps.fields
 
@@ -1575,18 +1523,15 @@ proc upload {} {
 
 #######
 # grab a file to upload
-# redundant, I know...but what do you expect?
-# I just started learning to program this year...
 
 proc grabfile {} {
 	global filename
 	set filename [tk_getOpenFile -filetypes $::file_types -initialdir ~]
-	wm title . "Now Tickling: $::filename"	
+	wm title . "Now Tickling: [file tail $::filename"]	
 }
 
 ############################
 # download file from server
-
 
 proc down {} {
 	.ftps.btns.prog start
@@ -1597,7 +1542,6 @@ proc down {} {
     ::ftp::Get $handle $::rfile $::dldir/$::rfile
     ::ftp::Close $handle
     .ftps.btns.prog stop
-    
     
     toplevel .down
     wm title .down "Success!"
@@ -1619,7 +1563,6 @@ proc down {} {
 	    
 }
 
-
 proc setbro {} {
 set filetypes " "
 set ::brow [tk_getOpenFile -filetypes $filetypes -initialdir "/usr/bin"]
@@ -1637,7 +1580,6 @@ Open preferences and set the browser" -type ok -title "No browser?!"
 
 ##################
 # list files on the remote server
-
 
 proc dlist {} {
     set handle [::ftp::Open $::host $::username $::password]
@@ -1668,7 +1610,6 @@ proc deletefile {} {
     tk::button .mdel.ok -text "okay" -command {destroy .mdel}
     pack .mdel.done -in .mdel -side top
     pack .mdel.ok -in .mdel -side top
-  
     
 }
 
@@ -1682,7 +1623,6 @@ pack .fhelp.out -in .fhelp -side top
 pack .fhelp.inf -in .fhelp -side top
 }
 
-
 proc help {} {
 toplevel .help
 wm title .help "TclText help"
@@ -1695,18 +1635,13 @@ pack .help.inf -in .help -side top
 
 ######################
 #  global preferences
-
-
 proc prefs {} {
 
 toplevel .pref
 
 wm title .pref "TclText preferences"
 
-
 grid [tk::label .pref.lbl -text "Set global prefernces here"]
-
-
 
 grid [tk::button .pref.fc -text "Font Color" -command {tfore}]\
 [tk::button .pref.bc -text "Text Background" -command {tback}]\
@@ -1718,7 +1653,6 @@ grid [tk::label .pref.aut -text "Your name:"]\
 [tk::label .pref.acon -text "Contact:"]\
 [tk::entry .pref.atco -textvariable emal]
 
-
 grid [tk::button .pref.bro -text "Set Browser" -command {setbro}]\
 [tk::entry .pref.br0z -textvariable brow]
 
@@ -1729,7 +1663,6 @@ grid [tk::label .pref.hq -text "Host:"]\
 [tk::label .pref.pathq -text "Directory: "]\
 [tk::entry .pref.path -textvariable path]
 
-
 grid [tk::label .pref.unam -text "Username: "]\
 [tk::entry .pref.uname -textvariable username]\
 [tk::label .pref.pwrd -text "Password: "]\
@@ -1739,7 +1672,6 @@ grid [tk::button .pref.sv -text "Save Preferences" -command sapro]\
 [tk::button .pref.ok -text "OK" -command {destroy .pref}]
 
 }
-
 
 # This program was written by Anthony Baldwin / tony@baldwinsoftware.com# This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -1754,6 +1686,3 @@ grid [tk::button .pref.sv -text "Save Preferences" -command sapro]\
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-
-##[ttk::button .ftps.ubtns.filename -text "Local file" -command grabfile]\  
-# lost a button?
