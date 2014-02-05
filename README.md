@@ -1,4 +1,4 @@
-TickleText 2.4 README:
+TickleText 3.0 README:
 ----
   
 ![TclText](http://www.tonybaldwin.info/images/tcltext020314204513.jpg)
