@@ -38,9 +38,7 @@ set filename " "
 set currentfile " "
 set wrap word
 
-
 font create font  -family fixed
-
 
 set novar "cows"
 
@@ -57,12 +55,17 @@ set file_types {
 {"Python" {.py}}
 {"Perl" {.pl}}
 {"PHP" {.php}}
+{"Lua Scripts" {.lua}}
 {"Java" {.java}}
 {"C files" {.c}}
 {"Shell scripts" {.sh}}
 {"Xml" {.xml}}
 {"Html" {.html}}
 {"CSS" {.css}}
+{"PowerShell Scripts" {.ps1}}
+{"Visual Basic Scripts" {.vs}}
+{"AutoIt" {.au3}}
+{"NuSpec Files" {.nuspec}}
 }
 
 # bindings
@@ -180,6 +183,10 @@ menu .fluff.tul.t -tearoff 1
 .fluff.tul.t add command -label "Wish Shell" -command {eval exec xterm /usr/bin/wish} -accelerator F2
 .fluff.tul.t add command -label "Tclsh" -command {exec xterm tclsh &}
 .fluff.tul.t add command -label "Python shell" -command {exec xterm python &}
+.fluff.tul.t add command -label "Ruby shell" -command {exec xterm irb &}
+.fluff.tul.t add command -label "Lua shell" -command {exec xterm lua &}
+.fluff.tul.t add command -label "cmd.exe" -command {exec "C:/Windows/system32/cmd.exe /c start &"}
+.fluff.tul.t add command -label "Power Shell" -command {exec "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe /c start &"}
 .fluff.tul.t add separator
 .fluff.tul.t add command -label "Browser" -command {browz} -accelerator F7 
 .fluff.tul.t add command -label "Dictionary" -command {eval exec tdict &} -accelerator Ctrl+d
@@ -376,7 +383,12 @@ proc prnt {} {
 	set fileid [open $::filename w]
 	puts -nonewline $fileid $data
 	close $fileid
-	exec cat $::filename | lpr
+	if { $::os == "Windows NT" } {
+		#print routine for windows
+		eval exec "C:/Windows/system32/cmd.exe /c start /min C:/Windows/system32/notepad.EXE /p $::filename"
+	} elseif { $::os == "Linux" } {
+		exec cat $::filename | lpr
+	} else {sorry}
 }
 
 # about message box
