@@ -1527,7 +1527,7 @@ proc upload {} {
 proc grabfile {} {
 	global filename
 	set filename [tk_getOpenFile -filetypes $::file_types -initialdir ~]
-	wm title . "Now Tickling: [file tail $::filename"]	
+	wm title . "Now Tickling: [file tail $::filename]"	
 }
 
 ############################
