@@ -1,7 +1,7 @@
 TickleText 3.0 README:
 ----
   
-![TclText](http://www.tonybaldwin.info/images/tcltext020314204513.jpg)
+![TclText](http://www.tonybaldwin.homelinux.net/images/tcltext020314204513.jpg)
 
 TickleText was created by Anthony Baldwin 
 http://wiki.tonybaldwin.info
